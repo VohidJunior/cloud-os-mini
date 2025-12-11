@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Python OS Simulator</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #c5c5c5;
+            font-family: monospace;
+            padding: 20px;
+        }
+        #terminal {
+            background-color: #2e2e2e;
+            padding: 20px;
+            border-radius: 8px;
+            height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        input {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #c5c5c5;
+            font-family: monospace;
+            font-size: 16px;
+            outline: none;
+        }
+        .prompt {
+            color: #4ec9b0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Python OS Simulator</h1>
+    <div id="terminal"></div>
+    <input type="text" id="command" autocomplete="off" placeholder="Buyruq yozing...">
+
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script>
+        let terminal = document.getElementById('terminal');
+        let commandInput = document.getElementById('command');
+        let pyodideReady = false;
+        let pyodide;
+
+        async function initPyodide() {
+            terminal.innerHTML += "Pyodide yuklanmoqda...\n";
+            pyodide = await loadPyodide();
+            pyodideReady = true;
+
+            // main.py faylini browserda import qilish
+            const main_py = await fetch("main.py");
+            const code = await main_py.text();
+            pyodide.runPython(code);
+            terminal.innerHTML += "OS Simulator tayyor! Buyruqlarni yozing.\n\n";
+            commandInput.focus();
+        }
+
+        initPyodide();
+
+        function printToTerminal(text) {
+            terminal.innerHTML += text + "\n";
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        commandInput.addEventListener("keydown", async function(e){
+            if (e.key === "Enter" && pyodideReady) {
+                let cmd = commandInput.value;
+                commandInput.value = "";
+                printToTerminal(`>> ${cmd}`);
+
+                try {
+                    // OS kodidagi program() funksiyasini ishlatish
+                    await pyodide.runPythonAsync(`
+import builtins
+builtins.input = lambda prompt="": "${cmd}"
+program()
+                    `);
+                } catch (err) {
+                    printToTerminal("Xatolik: " + err);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
