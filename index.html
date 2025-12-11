@@ -74,10 +74,11 @@
                 try {
                     // OS kodidagi program() funksiyasini ishlatish
                     await pyodide.runPythonAsync(`
-import builtins
-builtins.input = lambda prompt="": "${cmd}"
-program()
-                    `);
+                        import builtins
+                        builtins.input = lambda prompt="": "${cmd}"
+                        program()
+                        `);
+
                 } catch (err) {
                     printToTerminal("Xatolik: " + err);
                 }
