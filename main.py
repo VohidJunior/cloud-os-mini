@@ -6,6 +6,8 @@ help_os = """
     make_folder --> mkdir
     delete_folder --> rmdir
     cls --> exit
+    
+    file yaratish --> file
 """
 file_tree = {
     'user': {
@@ -29,47 +31,37 @@ def show_folders(path):
     
 
 def create_folder(path, name):
-    if len(path) == 0:
-        file_tree[name] = {}
-        return f'Muvaffaqqiyat! {name} papkasi yaratildi!'
-    else:
-        tree = file_tree
-        for i in path:
-            tree = tree[i]
-        tree[name] = {}
-        return f'Muvaffaqqiyat! {name} papkasi yaratildi!'
+    tree = file_tree
+    for i in path:
+        tree = tree[i]
+    tree[name] = {}
+    return f'Muvaffaqqiyat! {name} papkasi yaratildi!'
 
 def remove_folder(path, name):
-    if len(path) == 0:
-        del file_tree[name]
-        return f'Muvaffaqqiyat! {name} papkasi o\'chirildi!'
-    else:
-        tree = file_tree
-        for i in path:
-            tree = tree[i]
-        del tree[name]
-        return f'Muvaffaqqiyat! {name} papkasi o\'chirildi!'
-    
+    tree = file_tree
+    for i in path:
+        tree = tree[i]
+    del tree[name]
+    return f'Muvaffaqqiyat! {name} papkasi o\'chirildi!'
+
 def make_file(path, name):
-    if len(path) == 0:
-        file_tree
-    else:
-        tree = file_tree
-        for i in path:
-            tree = tree[i]
-        tree[name] = {}
+    tree = file_tree
+    for i in path:
+        tree = tree[i]
+    tree[name] = {}
     return f'Muvaffaqqiyat! {name} fayli yaratildi!'
 
-main_path = '>> Disk | '
-
+# Asosiy terminal funksiyasi
 def program():
     path = []
-    global main_path
+    main_path = '>> Disk | '
+    
     while True:
         main_path = '>> Disk | ' + ' | '.join(path) + ' | ' if path else '>> Disk | '
         prompt = input(f'{main_path}').split()
         if not prompt:
             continue
+        
         buyruq = prompt[0]
 
         if buyruq == 'to':
@@ -97,9 +89,19 @@ def program():
         elif buyruq == 'all':
             print(*show_folders(path), sep='\n')
 
+        # Fayl yaratish hozircha oddiy
+        elif buyruq == 'file':
+            if len(prompt) >= 2:
+                print(make_file(path, prompt[1]))
+            else:
+                print("Fayl nomini yozing!")
+
         elif buyruq == 'help':
             print(help_os)
 
         elif buyruq == 'cls':
             print('Xayr!')
             break
+
+print()
+program()
