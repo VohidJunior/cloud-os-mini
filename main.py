@@ -6,8 +6,6 @@ help_os = """
     make_folder --> mkdir
     delete_folder --> rmdir
     cls --> exit
-    
-    file yaratish --> file
 """
 file_tree = {
     'user': {
@@ -19,25 +17,6 @@ file_tree = {
         }
     }
 }
-
-# class File:
-#     ID = 1000
-#     def __init__(self, name, value=''):
-#         self.file_id = File.ID
-#         self.name = name
-#         self.value = value
-        
-#         File.ID += 1
-        
-#     def edit_file(self, new_value):
-#         self.value = new_value
-        
-#     def get_info(self):
-#         return {
-#             'ID': self.file_id,
-#             'name': self.name,
-#             'value': self.value[:20]
-#         }
 
 def show_folders(path):
     if len(path) == 0:
@@ -82,51 +61,7 @@ def make_file(path, name):
     return f'Muvaffaqqiyat! {name} fayli yaratildi!'
 
 main_path = '>> Disk | '
-# def program(path=[]):
-#     global main_path
-#     prompt = input(f'{main_path}').split()
-#     buyruq = prompt[0]
-    
-#     if buyruq == 'to':
-#         if prompt[1] not in show_folders(path):
-#             print("Bunday papka mavjud emas!")
-#             return program(path=path)
-        
-#         path.append(prompt[1])
-#         for i in path:
-#             main_path += f"{i} | "
-        
-#     elif buyruq == 'back':
-#         if len(path) == 0:
-#             return program(path=path)
-#         path.remove(path[-1])
-#         for i in path:
-#             main_path += f"{i} | "
-        
-#     elif buyruq == 'make_folder':
-#         print(create_folder(path, prompt[1]))
-        
-#     elif buyruq == 'remove_folder':
-#         print(remove_folder(path, prompt[1]))
-    
-#     elif buyruq == 'all':
-#         print(*show_folders(path), sep='\n')
-        
-#     # elif buyruq == 'file':
-#     #     print(
-#     #         )
-    
-#     elif buyruq == 'help':
-#         print(help_os)
-        
-#     elif buyruq == 'cls':
-#         print('Xayr!')
-#         return None
-    
-#     # return program(path=path)
 
-# print()
-# program()
 def program():
     path = []
     global main_path
@@ -161,9 +96,6 @@ def program():
 
         elif buyruq == 'all':
             print(*show_folders(path), sep='\n')
-
-        elif buyruq == 'file':
-            print("Fayl funksiyasi hali ishlamaydi!")
 
         elif buyruq == 'help':
             print(help_os)
