@@ -82,48 +82,92 @@ def make_file(path, name):
     return f'Muvaffaqqiyat! {name} fayli yaratildi!'
 
 main_path = '>> Disk | '
-def program(path=[]):
-    global main_path
-    prompt = input(f'{main_path}').split()
-    buyruq = prompt[0]
+# def program(path=[]):
+#     global main_path
+#     prompt = input(f'{main_path}').split()
+#     buyruq = prompt[0]
     
-    if buyruq == 'to':
-        if prompt[1] not in show_folders(path):
-            print("Bunday papka mavjud emas!")
-            return program(path=path)
+#     if buyruq == 'to':
+#         if prompt[1] not in show_folders(path):
+#             print("Bunday papka mavjud emas!")
+#             return program(path=path)
         
-        path.append(prompt[1])
-        for i in path:
-            main_path += f"{i} | "
+#         path.append(prompt[1])
+#         for i in path:
+#             main_path += f"{i} | "
         
-    elif buyruq == 'back':
-        if len(path) == 0:
-            return program(path=path)
-        path.remove(path[-1])
-        for i in path:
-            main_path += f"{i} | "
+#     elif buyruq == 'back':
+#         if len(path) == 0:
+#             return program(path=path)
+#         path.remove(path[-1])
+#         for i in path:
+#             main_path += f"{i} | "
         
-    elif buyruq == 'make_folder':
-        print(create_folder(path, prompt[1]))
+#     elif buyruq == 'make_folder':
+#         print(create_folder(path, prompt[1]))
         
-    elif buyruq == 'remove_folder':
-        print(remove_folder(path, prompt[1]))
+#     elif buyruq == 'remove_folder':
+#         print(remove_folder(path, prompt[1]))
     
-    elif buyruq == 'all':
-        print(*show_folders(path), sep='\n')
+#     elif buyruq == 'all':
+#         print(*show_folders(path), sep='\n')
         
-    # elif buyruq == 'file':
-    #     print(
-    #         )
+#     # elif buyruq == 'file':
+#     #     print(
+#     #         )
     
-    elif buyruq == 'help':
-        print(help_os)
+#     elif buyruq == 'help':
+#         print(help_os)
         
-    elif buyruq == 'cls':
-        print('Xayr!')
-        return None
+#     elif buyruq == 'cls':
+#         print('Xayr!')
+#         return None
     
-    # return program(path=path)
+#     # return program(path=path)
 
-print()
-program()
+# print()
+# program()
+def program():
+    path = []
+    global main_path
+    while True:
+        main_path = '>> Disk | ' + ' | '.join(path) + ' | ' if path else '>> Disk | '
+        prompt = input(f'{main_path}').split()
+        if not prompt:
+            continue
+        buyruq = prompt[0]
+
+        if buyruq == 'to':
+            if len(prompt) < 2 or prompt[1] not in show_folders(path):
+                print("Bunday papka mavjud emas!")
+                continue
+            path.append(prompt[1])
+
+        elif buyruq == 'back':
+            if path:
+                path.pop()
+
+        elif buyruq == 'make_folder':
+            if len(prompt) >= 2:
+                print(create_folder(path, prompt[1]))
+            else:
+                print("Papka nomini yozing!")
+
+        elif buyruq == 'remove_folder':
+            if len(prompt) >= 2:
+                print(remove_folder(path, prompt[1]))
+            else:
+                print("Papka nomini yozing!")
+
+        elif buyruq == 'all':
+            print(*show_folders(path), sep='\n')
+
+        elif buyruq == 'file':
+            print("Fayl funksiyasi hali ishlamaydi!")
+
+        elif buyruq == 'help':
+            print(help_os)
+
+        elif buyruq == 'cls':
+            print('Xayr!')
+            break
