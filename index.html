@@ -50,10 +50,11 @@
             pyodide = await loadPyodide();
             pyodideReady = true;
 
-            // main.py faylini browserda import qilish
+            // main.py faylini yuklash
             const main_py = await fetch("main.py");
             const code = await main_py.text();
             pyodide.runPython(code);
+
             terminal.innerHTML += "OS Simulator tayyor! Buyruqlarni yozing.\n\n";
             commandInput.focus();
         }
@@ -72,13 +73,18 @@
                 printToTerminal(`>> ${cmd}`);
 
                 try {
-                    // OS kodidagi program() funksiyasini ishlatish
+                    // Inputni funksiya orqali o'zgartirib, main.py ichidagi while loop bilan ishlash
+                    pyodide.globals.set("input_value", cmd);
                     await pyodide.runPythonAsync(`
-                        import builtins
-                        builtins.input = lambda prompt="": "${cmd}"
-                        program()
-                        `);
+import builtins
 
+def get_input(prompt=""):
+    val = builtins.__dict__.get("input_value")
+    builtins.__dict__["input_value"] = None
+    return val
+
+builtins.input = get_input
+`);
                 } catch (err) {
                     printToTerminal("Xatolik: " + err);
                 }
