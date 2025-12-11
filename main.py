@@ -20,24 +20,24 @@ file_tree = {
     }
 }
 
-class File:
-    ID = 1000
-    def __init__(self, name, value=''):
-        self.file_id = File.ID
-        self.name = name
-        self.value = value
+# class File:
+#     ID = 1000
+#     def __init__(self, name, value=''):
+#         self.file_id = File.ID
+#         self.name = name
+#         self.value = value
         
-        File.ID += 1
+#         File.ID += 1
         
-    def edit_file(self, new_value):
-        self.value = new_value
+#     def edit_file(self, new_value):
+#         self.value = new_value
         
-    def get_info(self):
-        return {
-            'ID': self.file_id,
-            'name': self.name,
-            'value': self.value[:20]
-        }
+#     def get_info(self):
+#         return {
+#             'ID': self.file_id,
+#             'name': self.name,
+#             'value': self.value[:20]
+#         }
 
 def show_folders(path):
     if len(path) == 0:
@@ -112,9 +112,9 @@ def program(path=[]):
     elif buyruq == 'all':
         print(*show_folders(path), sep='\n')
         
-    elif buyruq == 'file':
-        print(
-            )
+    # elif buyruq == 'file':
+    #     print(
+    #         )
     
     elif buyruq == 'help':
         print(help_os)
